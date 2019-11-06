@@ -41,3 +41,6 @@ d. AmazonLibrary.java : AmazonLibrary is a java class that contains all the appl
    
    b. TestUtil.java : Capturing screenshot, storing screenshot in the mentioned path, making zip of the reports,current date/time
        generation functions are defined here.
+
+
+All the testcases and testscripts are under : AmazonSmokeTest/src/test/java/
