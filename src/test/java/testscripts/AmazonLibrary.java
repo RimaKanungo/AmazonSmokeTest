@@ -3,7 +3,7 @@ package testscripts;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
-import java.util.List;
+import java.util.Scanner;
 
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -13,17 +13,11 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.WebDriver;
 
 
 
 public class AmazonLibrary extends DriverScript {
-
-	// Stores current window handle
-	public static String currentWindowHandle;
 
 	// Store method return result
 	public static String methodReturnResult = null;
@@ -180,9 +174,6 @@ public class AmazonLibrary extends DriverScript {
 	}
 
 
-	
-	
-
 	//Create a method and print the result of the product description from first page and put into an excel sheet
 	public static String printSearchItems() throws MalformedURLException, InterruptedException {
 		APPLICATION_LOGS.debug("To print the result of the product description from first page and put into an excel sheet - " );
@@ -218,6 +209,39 @@ public class AmazonLibrary extends DriverScript {
 
 	}
 
+
+	//Create a method and print the Nth item
+
+	public static String printNthItem() throws MalformedURLException, InterruptedException {
+		APPLICATION_LOGS.debug("To print the Nth item with price - " );
+
+		try {
+			Scanner scan = new Scanner(System.in);
+
+			//Enter the Nth item
+			System.out.print("Enter the Nth item you would like to print: ");
+
+			int n = scan.nextInt();
+			String NthProductDescription = null;
+			String NthPrice = null;
+
+
+			NthProductDescription = driver.findElement(By.xpath("((//span[contains(@cel_widget_id,'SEARCH_RESULTS')])["+n+"]//span[contains(@class,'a-size-base-plus')])[2]")).getText();
+			NthPrice = driver.findElement(By.xpath("(//span[contains(@cel_widget_id,'SEARCH_RESULTS')])["+n+"]//span[contains(@class,'a-price-whole')]")).getText();
+
+
+			System.out.println("Product description: "+NthProductDescription+" "+"Price: "+NthPrice);
+		}
+
+		catch (Throwable navigationError) {
+			APPLICATION_LOGS.debug("Error came while printing the Nth item : " + navigationError.getMessage());
+			return failTest + " : Error came while printing the Nth item";
+		}
+
+		APPLICATION_LOGS.debug("Able to print the Nth product descriptions - " + testSiteName);
+		return "Pass : Able to print the Nth product descriptions - " + testSiteName;
+
+	}
 
 }
 
