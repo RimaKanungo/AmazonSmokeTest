@@ -18,6 +18,9 @@ import org.openqa.selenium.By;
 
 
 public class AmazonLibrary extends DriverScript {
+	public static int numberOfProducts = 0;
+	public static String productDescription = null;
+	public static String price = null;
 
 	// Store method return result
 	public static String methodReturnResult = null;
@@ -222,15 +225,12 @@ public class AmazonLibrary extends DriverScript {
 			System.out.print("Enter the Nth item you would like to print: ");
 
 			int n = scan.nextInt();
-			String NthProductDescription = null;
-			String NthPrice = null;
+
+			productDescription = driver.findElement(By.xpath("((//span[contains(@cel_widget_id,'SEARCH_RESULTS')])["+n+"]//span[contains(@class,'a-size-base-plus')])[2]")).getText();
+			price = driver.findElement(By.xpath("(//span[contains(@cel_widget_id,'SEARCH_RESULTS')])["+n+"]//span[contains(@class,'a-price-whole')]")).getText();
 
 
-			NthProductDescription = driver.findElement(By.xpath("((//span[contains(@cel_widget_id,'SEARCH_RESULTS')])["+n+"]//span[contains(@class,'a-size-base-plus')])[2]")).getText();
-			NthPrice = driver.findElement(By.xpath("(//span[contains(@cel_widget_id,'SEARCH_RESULTS')])["+n+"]//span[contains(@class,'a-price-whole')]")).getText();
-
-
-			System.out.println("Product description: "+NthProductDescription+" "+"Price: "+NthPrice);
+			System.out.println("Product description: "+productDescription+" "+"Price: "+price);
 		}
 
 		catch (Throwable navigationError) {

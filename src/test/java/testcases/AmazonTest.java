@@ -25,15 +25,24 @@ public class AmazonTest extends DriverScript {
 	public static By locatorBrandLeather = By.xpath("//li[@id='p_n_material_browse/1480907031']//i[@class='a-icon a-icon-checkbox']");
 	public static By locatorDiscountFilter = By.xpath("//span[contains(text(),'25% Off or more')]");
 
+	// Expected page title
+	public static String appLoginPageTitle = "Online Shopping site in India: Shop Online for Mobiles, Books, Watches, Shoes and More - Amazon.in";
+
+	// Site name
+	public static String testSiteName = "Amazon.in";
+
+	//Expected filter title after filters provided
+	public static String filterTitle = "Titan / Analogue / Leather / 25% Off or more";
+
+	//Expected product Description
+	public static String expectedProductDescription = "Analog";
 
 	// Navigate to the Amazon App, Search for the Wrist Watches, provide the filters[Display- Analogue, Brand Material- Leather, Brands-Titan, Discounts- 25% or more]
-
 	public static String navigateToAmazonSearchForWristWatches() throws SQLException, InterruptedException, IOException {
 
-		APPLICATION_LOGS.debug(
-				"Executing test case : Navigate To Amazon, Search For Wrist Watches and provide the filters");
+		APPLICATION_LOGS.debug("Executing test case : Navigate To Amazon, Search For Wrist Watches and provide the filters");
 
-		// Navigating to the App
+		// Navigating to the Amaozon App
 		methodReturnResult = AmazonLibrary.navigateToAppWebsite();
 		if (methodReturnResult.contains(failTest)) {
 			return methodReturnResult;
@@ -57,6 +66,29 @@ public class AmazonTest extends DriverScript {
 
 		// Waiting for the elements to load
 		FunctionLibrary.waitForElementToLoad(locatorSearchTextBox);
+
+		// Verify Login page appears
+		expectedTitle = appLoginPageTitle;
+		methodReturnResult = FunctionLibrary.assertTitle(expectedTitle);
+		if (methodReturnResult.contains(failTest)) {
+
+			// Log result
+			APPLICATION_LOGS.debug("Not navigated to the test site - " + testSiteName);
+			System.err.println("Not navigated to the test site - " + testSiteName);
+			return methodReturnResult;
+
+		}
+
+		APPLICATION_LOGS.debug("Navigated to the test site - " + testSiteName);
+		return "Pass : Navigated to the test site - " + testSiteName;
+
+	}
+
+
+	// Provide the filters[Display- Analogue, Brand Material- Leather, Brands-Titan, Discounts- 25% or more]
+	public static String filterProductsForWristWatches() throws SQLException, InterruptedException, IOException {
+
+		APPLICATION_LOGS.debug("Executing test case : Navigate To Amazon, Search For Wrist Watches and provide the filters");	
 
 		/*Selecting some of the filters provided:
 		 * Selecting the checkbox for Brands- Titan
@@ -97,17 +129,76 @@ public class AmazonTest extends DriverScript {
 		//Waiting for the page to load
 		FunctionLibrary.waitForPageToLoad();
 
-		// Printing the result of the product description from first page and putting the descriptions into an excel sheet.
+		// Verify the filters provided
+		expectedTitle = filterTitle;
+		methodReturnResult = FunctionLibrary.assertTitle(expectedTitle);
+		if (methodReturnResult.contains(failTest)) {
+
+			// Log result
+			APPLICATION_LOGS.debug("Correct filters not provided to the test site - " + testSiteName);
+			System.err.println("Correct filters not provided to the test site - " + testSiteName);
+			return methodReturnResult;
+
+		}
+
+		APPLICATION_LOGS.debug("Correct filters are provided to the test site - " + testSiteName);
+		return "Pass : Correct filters are provided to the test site - " + testSiteName;
+
+	}
+
+
+	// Printing the result of the product description from first page and putting the descriptions into an excel sheet.
+	public static String printProductDescriptionAndPrice() throws SQLException, InterruptedException, IOException {
+		APPLICATION_LOGS.debug("Executing test case : Print the product description and the price");
+
 		methodReturnResult = AmazonLibrary.printSearchItems();
 		if (methodReturnResult.contains(failTest)) {
 			return methodReturnResult;
 		}
-		Thread.sleep(5000);
+
+		// Verify the product description
+		methodReturnResult = FunctionLibrary.verifyTextPresent(expectedProductDescription);
+		if (methodReturnResult.contains(failTest)) {
+
+			// Log result
+			APPLICATION_LOGS.debug("Analog Watches are not selected from the test site - " + testSiteName);
+			System.err.println("Analog Watches are not selected from the test site - " + testSiteName);
+			return methodReturnResult;
+
+		}
+
+		APPLICATION_LOGS.debug("Analog Watches are selected from the test site - " + testSiteName);
+		return "Pass : Analog Watches are selected from the test site - " + testSiteName;
+
+	}
+
+
+	// Printing the Nth Product among the searched item
+	public static String prinNthtProductDescriptionAndPrice() throws SQLException, InterruptedException, IOException {
+		APPLICATION_LOGS.debug(
+				"Print the Nth product description and the price"); 
+		methodReturnResult = AmazonLibrary.printNthItem();
+		if (methodReturnResult.contains(failTest)) {
+			return methodReturnResult;
+		}
 
 		// Close Driver
 		FunctionLibrary.closeDriver();
 
-		return "Fail: Not able to Search items and print them";
+		// Verify the Nth product description
+		methodReturnResult = FunctionLibrary.verifyTextPresent(expectedProductDescription);
+		if (methodReturnResult.contains(failTest)) {
+
+			// Log result
+			APPLICATION_LOGS.debug("Analog Watches are not selected from the test site - " + testSiteName);
+			System.err.println("Analog Watches are not selected from the test site - " + testSiteName);
+			return methodReturnResult;
+
+		}
+
+		APPLICATION_LOGS.debug("Analog Watches are selected from the test site - " + testSiteName);
+		return "Pass : Analog Watches are selected from the test site - " + testSiteName;
 
 	}
+
 }
