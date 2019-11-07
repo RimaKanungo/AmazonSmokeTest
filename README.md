@@ -1,6 +1,8 @@
 AmazonSmokeTest- I have automated the testcases by using selenium webdriver and java programming language and implemented hybrid framework (combination of both data driven and keyword framework). 
 I have used a Maven for dependency management.
 
+All the testcases and testscripts are under : AmazonSmokeTest/src/test/java/
+
 Followings are the details of each packages:
 
 config : This package contains all the configuration details, keyword details, testdata, logs.
@@ -43,4 +45,3 @@ d. AmazonLibrary.java : AmazonLibrary is a java class that contains all the appl
        generation functions are defined here.
 
 
-All the testcases and testscripts are under : AmazonSmokeTest/src/test/java/
